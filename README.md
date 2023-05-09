@@ -28,3 +28,20 @@ go build -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=v1.0.0
 /start hello
 /start menu
 ```
+
+### Makefile
+
+If we want to build app for OS Linux and arm64 architecture we can use one of the following methods
+
+### 1 method
+
+- Change TARGETOS and TARGETARCH, save changes and run command:
+```
+make build_linux
+```
+
+### 2 method 
+- Run command
+```
+make build TARGETOS=linux TARGETARCH=arm64
+```
