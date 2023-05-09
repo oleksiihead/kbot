@@ -22,16 +22,16 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}"
+	CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X"=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
 
 build_linux: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=linux GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}"
+	CGO_ENABLED=${CGO_ENABLED} GOOS=linux GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
 
 build_macos: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=darwin GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}"
+	CGO_ENABLED=${CGO_ENABLED} GOOS=darwin GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
 
 build_windows: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=windows GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}"
+	CGO_ENABLED=${CGO_ENABLED} GOOS=windows GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
 
 image:
 	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
