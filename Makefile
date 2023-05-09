@@ -5,6 +5,10 @@ TARGETOS=linux #linux darwin windows
 TARGETARCH=amd64 #amd64 arm64
 CGO_ENABLED=0
 
+.PHONY: all format lint test get build build_linux build_macos build_windows image image_linux image_macos image_windows push clean
+
+all: format lint test build image push clean
+
 format:
 	gofmt -s -w ./
 
