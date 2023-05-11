@@ -1,9 +1,12 @@
-APP=$(shell basename $(shell git remote get-url origin))
-REGISTRY=gcr.io/kbot-385713
-VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS=linux #linux darwin windows
-TARGETARCH=amd64 #amd64 arm64
-CGO_ENABLED=0
+APP =$(shell basename $(shell git remote get-url origin))
+REGISTRY =gcr.io/kbot-385713
+GO_BUILD =go build -v -o kbot -ldflags "-X"=github.com/oleksiihead/kbot/cmd.appVersion=
+VERSION =$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+# TARGETOS can be: linux darwin windows
+TARGETOS =linux
+# TARGETARCH can be: amd64 arm64
+TARGETARCH ?=amd64
+CGO_ENABLED ?=0
 
 .PHONY: all format lint test get build build_linux build_macos build_windows image image_linux image_macos image_windows push clean
 
@@ -22,32 +25,32 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X"=github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
+	CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} ${GO_BUILD}${VERSION}
 
-build_linux: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=linux GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
+linux: format get
+	CGO_ENABLED=${CGO_ENABLED} GOOS=linux GOARCH=${TARGETARCH} ${GO_BUILD}${VERSION}
 
-build_macos: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=darwin GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
+macos: format get
+	CGO_ENABLED=${CGO_ENABLED} GOOS=darwin GOARCH=${TARGETARCH} ${GO_BUILD}{VERSION}
 
-build_windows: format get
-	CGO_ENABLED=${CGO_ENABLED} GOOS=windows GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/oleksiihead/kbot/cmd.appVersion=${VERSION}
+windows: format get
+	CGO_ENABLED=${CGO_ENABLED} GOOS=windows GOARCH=${TARGETARCH} ${GO_BUILD}${VERSION}
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 image_linux:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETOS=linux --build-arg TARGETARCH=${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH} --build-arg TARGETOS=linux --build-arg TARGETARCH=${TARGETARCH} --build-arg CGO_ENABLED=0
 
 image_macos:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETOS=darwin --build-arg TARGETARCH=${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH} --build-arg TARGETOS=darwin --build-arg TARGETARCH=${TARGETARCH} --build-arg CGO_ENABLED=0
 
 image_windows:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETOS=windows --build-arg TARGETARCH=${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH} --build-arg TARGETOS=windows --build-arg TARGETARCH=${TARGETARCH} --build-arg CGO_ENABLED=1
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 clean:
 	rm -rf kbot
-	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
