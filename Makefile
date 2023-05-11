@@ -9,7 +9,7 @@ TARGETARCH ?=amd64
 # For windows change 0 to 1
 CGO_ENABLED ?=0
 
-.PHONY: all format lint test get build build_linux build_macos build_windows image image_linux image_macos image_windows push clean
+.PHONY: all format lint test get build image push clean
 
 all: format lint test build image push clean
 
