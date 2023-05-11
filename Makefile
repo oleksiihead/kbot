@@ -78,4 +78,4 @@ clean_all_images:
 	done
 
 clean_all_builds:
-	rm -rf ./builds/; \
+	rm -rf ./builds/
