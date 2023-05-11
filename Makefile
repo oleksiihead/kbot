@@ -11,7 +11,7 @@ CGO_ENABLED ?=0
 TARGETOS_LIST = linux darwin windows
 TARGETARCH_LIST = amd64 arm64
 
-.PHONY: all format lint test get build build_all image image_all push clean clean_all_builds clean_all_images
+.PHONY: all format lint test get build build_all image image_all push push_all clean clean_all_builds clean_all_images
 
 all: format lint test build_all image_all push_all clean_all_builds clean_all_images
 
