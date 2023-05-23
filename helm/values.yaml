@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: oleksiihead
+  tag: "v1.0.7-154492d"
+  os: linux
+  arch: amd64
+
+secret:
+  name: kbot
+  tokenKey: token
+  tokenNamw: TELE_TOKEN
