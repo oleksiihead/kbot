@@ -1,9 +1,10 @@
 APP =$(shell basename $(shell git remote get-url origin))
-REGISTRY =gcr.io/kbot-385713
+REGISTRY =oleksiihead
+# REGISTRY =gcr.io/kbot-385713
 GO_BUILD =go build -v -o kbot -ldflags "-X"=github.com/oleksiihead/kbot/cmd.appVersion=
 VERSION =$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 # TARGETOS can be: linux darwin windows. For macos don't forget to change TARGETARCH=arm64
-TARGETOS =darwin
+TARGETOS =linux
 # TARGETARCH can be: amd64 arm64
 TARGETARCH ?=amd64
 # For windows change 0 to 1
