@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: oleksiihead
-  tag: "v1.0.7-154492d"
+  tag: "v1.0.8-36bfee2"
   os: linux
   arch: amd64
 
