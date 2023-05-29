@@ -1,11 +1,9 @@
 replicaCount: 1
-
 image:
   repository: oleksiihead
-  tag: "v1.0.8-36bfee2"
+  tag: "v1.0.8-27be8d0"
   os: linux
   arch: amd64
-
 secret:
   name: "kbot"
   tokenKey: "token"
