@@ -1,5 +1,5 @@
 APP =$(shell basename $(shell git remote get-url origin))
-REGISTRY =ghrc.io/oleksiihead
+REGISTRY =ghcr.io/oleksiihead
 # REGISTRY =gcr.io/kbot-385713
 GO_BUILD =go build -v -o kbot -ldflags "-X"=github.com/oleksiihead/kbot/cmd.appVersion=
 VERSION =$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
