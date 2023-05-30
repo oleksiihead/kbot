@@ -1,6 +1,9 @@
 name: KBOT-CICD
 
-on: push
+on: 
+  push:
+    branches:
+      develop
 
 jobs:
   ci:
@@ -16,35 +19,36 @@ jobs:
       - name: Run tests
         run: make test
 
-      - name: DockerHub login
+      - name: Docker login
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build & Push
         env:
           APP: "kbot"
-          REGISTRY: ${{ secrets.DOCKERHUB_USERNAME  }}
+          REGISTRY: ghcr.io/${{ secrets.GHCR_USERNAME }}
         run: make image push
 
-  cd:
-    name: CD
-    needs: ci
-    runs-on: ubuntu-latest
+  # cd:
+  #   name: CD
+  #   needs: ci
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - run: echo "VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       fetch-depth: 0
+  #   - run: echo "VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-    - uses: mikefarah/yq@master
-      with:
-        cmd: yq -i '.image.tag=strenv(VERSION)' helm/values.yaml
+  #   - uses: mikefarah/yq@master
+  #     with:
+  #       cmd: yq -i '.image.tag=strenv(VERSION)' helm/values.yaml
         
-    - run: |
-        git config user.name github-actions
-        git config user.email github-actions@hithub.com
-        git commit -am "Update version $VERSION"
-        git push
+  #   - run: |
+  #       git config user.name github-actions
+  #       git config user.email github-actions@hithub.com
+  #       git commit -am "Update version $VERSION"
+  #       git push
