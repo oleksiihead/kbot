@@ -10,4 +10,4 @@ secret:
   tokenKey: "token"
   tokenName: "TELE_TOKEN"
 imagePullSecrets:
-  secretName: "ghcrCreds"
+  secretName: "ghcrcreds"
