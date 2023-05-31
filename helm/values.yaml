@@ -1,6 +1,6 @@
 replicaCount: 1
 image:
-  repository: oleksiihead
+  repository: ghcr.io/oleksiihead
   tag: "v1.0.8-27be8d0"
   os: linux
   arch: amd64
