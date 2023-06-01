@@ -30,9 +30,13 @@ pipeline {
         }
 
         stage('Push image') {
-            steps {
-                echo 'Pushing docker image...'
-                sh 'make push'
+            steps {              
+                script {
+                    docker.withRegistry('', 'dockerhub') {
+                        echo 'Pushing docker image...'
+                        sh 'make push'
+                    }
+                }
             }
         }
 
