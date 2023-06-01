@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: oleksiihead
-  tag: "v1.0.8-e12a0b6"
+  tag: "v1.0.8-c9739b3"
   os: linux
   arch: amd64
 secret:
